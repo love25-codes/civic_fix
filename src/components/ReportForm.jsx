@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Upload, Globe, ChevronDown, X, Loader2 } from "lucide-react";
+import { Upload, Globe, ChevronDown, X, Loader2, Activity } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 // Path adjusted to your folder structure
@@ -25,11 +25,18 @@ const PRIORITIES = [
     { label: "High", value: "high", color: "#ef4444" },
 ];
 
+const STATUS_OPTIONS = [
+    { label: "Pending", value: "pending", color: "#fbbf24" }, // Yellow
+    { label: "In Progress", value: "in progress", color: "#3b82f6" }, // Blue
+    { label: "Resolved", value: "resolved", color: "#22c55e" }, // Green
+];
+
 const INITIAL_STATE = {
     title: "",
     description: "",
     category: "",
     priority: "medium",
+    status: "pending",
     state: "",
     city: "",
     area: "",
@@ -61,12 +68,11 @@ export default function ReportForm({ user }) {
         }
 
         setSubmitting(true);
-        console.log("Starting upload for user:", user.uid); // Debugging line
+        console.log("Starting upload for user:", user.uid);
 
         try {
             let imageUrl = null;
 
-            // Only try to upload if a file exists AND storage is ready
             if (file) {
                 try {
                     const fileRef = ref(storage, `reports/${user.uid}/${Date.now()}_${file.name}`);
@@ -78,22 +84,19 @@ export default function ReportForm({ user }) {
                 }
             }
 
-            // Save to Firestore
             await addDoc(collection(db, "reports"), {
                 ...form,
                 userId: user.uid,
                 userEmail: user.email,
-                imageUrl: imageUrl, // This will be null if image failed, but data still saves!
-                status: "pending",
+                imageUrl: imageUrl,
                 createdAt: serverTimestamp(),
             });
 
             toast.success("Activity Logged!");
-
-            // RESET FORM
             setForm(INITIAL_STATE);
             setFile(null);
             setPreview(null);
+            navigate("/dashboard");
 
         } catch (error) {
             console.error("Database Error Details:", error);
@@ -109,6 +112,7 @@ export default function ReportForm({ user }) {
         setPreview(null);
         toast.success("Form cleared");
     };
+
     const inputStyle = "w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-1 focus:ring-blue-500 transition-all";
     const labelStyle = "text-[11px] font-bold text-slate-400 mb-1.5 block uppercase tracking-widest";
 
@@ -137,15 +141,15 @@ export default function ReportForm({ user }) {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <label className={labelStyle}>Categorization</label>
                             <div className="relative">
                                 <div className="absolute left-4 top-1/2 -translate-y-1/2">
                                     <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: CATEGORIES.find(c => c.value === form.category)?.color || '#334155' }} />
                                 </div>
-                                <select value={form.category} onChange={(e) => set("category", e.target.value)} className={`${inputStyle} appearance-none pl-10`}>
-                                    <option value="" disabled className="bg-[#111]">Select Category</option>
+                                <select value={form.category} onChange={(e) => set("category", e.target.value)} className={`${inputStyle} appearance-none pl-10 text-xs font-bold uppercase tracking-tighter`}>
+                                    <option value="" disabled className="bg-[#111]">Category</option>
                                     {CATEGORIES.map((c) => (<option key={c.value} value={c.value} className="bg-[#111]">{c.label}</option>))}
                                 </select>
                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
@@ -158,8 +162,34 @@ export default function ReportForm({ user }) {
                                 <div className="absolute left-4 top-1/2 -translate-y-1/2">
                                     <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: PRIORITIES.find(p => p.value === form.priority)?.color || '#334155' }} />
                                 </div>
-                                <select value={form.priority} onChange={(e) => set("priority", e.target.value)} className={`${inputStyle} appearance-none pl-10`}>
+                                <select value={form.priority} onChange={(e) => set("priority", e.target.value)} className={`${inputStyle} appearance-none pl-10 text-xs font-bold uppercase tracking-tighter`}>
                                     {PRIORITIES.map((p) => (<option key={p.value} value={p.value} className="bg-[#111]">{p.label}</option>))}
+                                </select>
+                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
+                            </div>
+                        </div>
+
+                        {/* --- ADDED STATUS FIELD --- */}
+                        <div>
+                            <label className={labelStyle}>Initial Status</label>
+                            <div className="relative">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                                    <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: STATUS_OPTIONS.find(s => s.value === form.status)?.color || '#334155' }} />
+                                </div>
+                                <select 
+                                    value={form.status} 
+                                    onChange={(e) => set("status", e.target.value)} 
+                                    className={`${inputStyle} appearance-none pl-10 text-xs font-bold uppercase tracking-tighter ${
+                                        form.status === 'pending' ? 'text-yellow-500' : 
+                                        form.status === 'in progress' ? 'text-blue-500' : 
+                                        form.status === 'resolved' ? 'text-emerald-500' : 'text-white'
+                                    }`}
+                                >
+                                    {STATUS_OPTIONS.map((s) => (
+                                        <option key={s.value} value={s.value} className="bg-[#111] font-bold">
+                                            {s.label}
+                                        </option>
+                                    ))}
                                 </select>
                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
                             </div>
@@ -176,24 +206,6 @@ export default function ReportForm({ user }) {
                             <input placeholder="Area" value={form.area} onChange={(e) => set("area", e.target.value)} className={`${inputStyle} text-sm`} />
                         </div>
                     </div>
-                    {/* 
-          <div>
-            <label className={labelStyle}>Visual Evidence</label>
-            {!preview ? (
-              <div className="relative border border-dashed border-white/10 rounded-2xl p-10 text-center bg-black/20 hover:border-blue-500/50 group cursor-pointer">
-                <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={(e) => setFile(e.target.files[0])} />
-                <Upload className="w-8 h-8 text-slate-700 mx-auto mb-2 group-hover:text-blue-500" />
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Attach Evidence</p>
-              </div>
-            ) : (
-              <div className="relative group rounded-2xl overflow-hidden border border-white/10 aspect-video max-h-64">
-                <img src={preview} alt="Preview" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center">
-                    <button type="button" onClick={() => setFile(null)} className="bg-red-500 text-white px-4 py-2 rounded-lg font-black text-[10px] uppercase">Remove</button>
-                </div>
-              </div>
-            )}
-          </div> */}
 
                     <div className="flex items-center justify-end gap-4 pt-6 border-t border-white/5">
                         <button
