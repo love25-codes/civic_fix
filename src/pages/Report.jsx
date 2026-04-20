@@ -35,7 +35,7 @@ export default function Report() {
                   <Zap size={12} className="fill-current" /> Security Layer Alpha
                 </div>
                 <h1 className="text-3xl font-bold text-white tracking-tight uppercase">Identity Required</h1>
-                <p className="text-zinc-400 text-sm">Please authenticate to access the reporting terminal.</p>
+                <p className="text-zinc-400 text-sm">Please authenticate to report an issue.</p>
               </div>
             </div>
           </div>

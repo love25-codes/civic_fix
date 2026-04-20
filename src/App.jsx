@@ -8,6 +8,7 @@ import Report from "./pages/Report";
 import Analytics from "./pages/Analytics";
 import { ReportProvider } from "./context/ReportContext";
 
+
 export default function App() {
   return (
     <ReportProvider>
@@ -22,7 +23,6 @@ export default function App() {
             <Route path="/report" element={<Report />} />
             <Route path="/analytics" element={<Analytics />} />
           </Routes>
-        
 
       </BrowserRouter>
     </AuthProvider>
