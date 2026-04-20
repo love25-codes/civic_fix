@@ -6,9 +6,11 @@ import Learn from "./pages/Learn";
 import Map from "./pages/Map";
 import Report from "./pages/Report";
 import Analytics from "./pages/Analytics";
+import { ReportProvider } from "./context/ReportContext";
 
 export default function App() {
   return (
+    <ReportProvider>
     <AuthProvider>
       <BrowserRouter>
 
@@ -24,5 +26,6 @@ export default function App() {
 
       </BrowserRouter>
     </AuthProvider>
+    </ReportProvider>
   );
 }
