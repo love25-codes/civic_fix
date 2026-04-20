@@ -68,19 +68,26 @@ CIVIC_FIX
 
 ### ● Frontend & UX
 COMPONENT ARCHITECTURE: Used React to build modular, reusable UI elements like Navbar, AuthModal, and ReportForm.
+<br />
 GLOBAL STATE MANAGEMENT: Implemented React Context API to share user authentication and report data across the entire app seamlessly.
+<br />
 CLIENT-SIDE ROUTING: Used react-router-dom to create a smooth, single-page application (SPA) experience without page reloads.
+<br />
 RESPONSIVE DESIGN: Applied Tailwind CSS utility classes to ensure a premium dashboard experience.
 
 
 ### ● Backend & Database
 SERVERLESS ARCHITECTURE: Utilized Firebase as a Backend-as-a-Service (BaaS) to handle logic without managing a physical server.
+<br />
 NoSQL DATA MODELING: Structured data in Cloud Firestore using collections and documents for flexible urban issue tracking.
+<br />
 IDENTITY MANAGEMENT: Integrated Firebase Auth for secure user registration and login sessions.
 
 ### ● Security & DevOps
 ENVIRONMENT SECURITY: Managed sensitive API keys via .env files and Vite environment variables to prevent leaks on GitHub.
+<br />
 DATABASE GUARDRAILS: Wrote custom Firestore Security Rules to ensure only authenticated users can read or write data.
+<br />
 CI/CD PIPELINE: Connected GitHub to Vercel for automated builds and continuous deployment.
 
 
