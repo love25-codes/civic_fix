@@ -19,7 +19,7 @@ export const Navbar = () => {
   const navLinks = [
     { to: "/", label: "Learn", icon: BookOpen },
     { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { to: "/map", label: "Map", icon: MapPin },
+    // { to: "/map", label: "Map", icon: MapPin },
     { to: "/report", label: "Report", icon: Plus },
     { to: "/analytics", label: "Analytics", icon: BarChart3 },
   ];

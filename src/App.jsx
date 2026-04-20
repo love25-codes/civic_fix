@@ -18,7 +18,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Learn />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/map" element={<Map />} />
+            {/* <Route path="/map" element={<Map />} /> */}
             <Route path="/report" element={<Report />} />
             <Route path="/analytics" element={<Analytics />} />
           </Routes>

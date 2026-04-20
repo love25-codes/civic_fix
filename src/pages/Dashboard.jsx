@@ -69,9 +69,9 @@ export default function Dashboard() {
   const getPriorityStyles = (priority) => {
     const p = priority?.toLowerCase();
     switch (p) {
-      case 'high': return { text: "text-red-500", bg: "bg-red-500/5", border: "border-red-500/10" };
-      case 'medium': return { text: "text-yellow-500", bg: "bg-yellow-500/5", border: "border-yellow-500/10" };
-      case 'low': return { text: "text-emerald-500", bg: "bg-emerald-500/5", border: "border-emerald-500/10" };
+      case 'high': return { text: "text-red-500", bg: "bg-red-950", border: "border-red-500/10" };
+      case 'medium': return { text: "text-yellow-500", bg: "bg-yellow-600/30", border: "border-yellow-500/10" };
+      case 'low': return { text: "text-emerald-500", bg: "bg-emerald-600/20", border: "border-emerald-500/10" };
       default: return { text: "text-zinc-400", bg: "bg-zinc-900/50", border: "border-zinc-800" };
     }
   };
@@ -87,6 +87,7 @@ export default function Dashboard() {
       cyber: "bg-purple-500/10 text-purple-400 border-purple-500/20",
       "public safety": "bg-red-500/10 text-red-400 border-red-500/20",
       infrastructure: "bg-teal-500/10 text-teal-400 border-teal-500/20",
+      safety: "bg-red-500/10 text-red-400 border-red-500/20",
       other: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
     };
     return map[c] || "bg-zinc-800 text-zinc-400 border-zinc-700";
@@ -125,9 +126,6 @@ export default function Dashboard() {
                 <h1 className="text-3xl font-bold text-white tracking-tight uppercase">Identity Required</h1>
                 <p className="text-zinc-400 text-sm">Please authenticate to access your dashboard.</p>
               </div>
-              <Link to="/login" className="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all active:scale-[0.98]">
-                Sign In
-              </Link>
             </div>
           </div>
         </div>
@@ -162,7 +160,7 @@ export default function Dashboard() {
           </div>
           <Link to="/report">
             <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg h-11 px-6 flex items-center font-bold transition-all active:scale-95 shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:shadow-[0_0_25px_rgba(37,99,235,0.4)]">
-              <Plus className="w-5 h-5 mr-2" /> NEW REPORT
+              <Plus className="w-5 h-5 mr-2" /> Report Issue
             </button>
           </Link>
         </div>
