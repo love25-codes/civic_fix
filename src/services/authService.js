@@ -1,22 +1,57 @@
-import { auth } from "../firebase/config";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+// src/services/authService.js
 
-// SIGNUP
-export const signup = async (email, password) => {
-  try {
-    const user = await createUserWithEmailAndPassword(auth, email, password);
-    return user;
-  } catch (error) {
-    alert(error.message);
+import { auth, db } from "../firebase/config";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+
+
+// -------------------- SIGN UP --------------------
+export const signup = async (name, email, password) => {
+  if (!name || !email || !password) {
+    throw new Error("All fields are required");
   }
+
+  const userCredential = await createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
+
+  const user = userCredential.user;
+
+  await updateProfile(user, { displayName: name });
+
+  await setDoc(doc(db, "users", user.uid), {
+    uid: user.uid,
+    name,
+    email,
+    createdAt: serverTimestamp(),
+  });
+
+  return user;
 };
 
-// LOGIN
+// -------------------- LOGIN --------------------
 export const login = async (email, password) => {
   try {
-    const user = await signInWithEmailAndPassword(auth, email, password);
-    return user;
+    if (!email || !password) {
+      throw new Error("Email and password required");
+    }
+
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    return userCredential.user;
   } catch (error) {
-    alert(error.message);
+    console.error("Login error:", error.message);
+    throw error;
   }
 };
