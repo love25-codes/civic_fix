@@ -1,52 +1,97 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
-import { ShieldAlert, User } from "lucide-react";
+import { User, Zap, LockKeyhole } from "lucide-react";
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
 
-  // optional: avoid flicker during initial auth check
+  // Loading State - kept minimal but consistent
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-[70vh] text-zinc-400">
-        Loading dashboard...
+      <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 bg-white">
+        <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] animate-pulse">
+          Decrypting Data...
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4">
+    <div className="fixed inset-0 flex items-center justify-center px-4 overflow-hidden bg-slate-50">
       
-      {/* NOT LOGGED IN STATE */}
-      {!user ? (
-        <div className="text-center max-w-md bg-zinc-900 border border-white/10 rounded-2xl p-10">
-          <ShieldAlert className="mx-auto w-10 h-10 text-blue-500 mb-4" />
+      {/* Dynamic Background Blobs - Makes the background feel alive */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px] animate-pulse duration-[10000ms]" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-indigo-50/50 rounded-full blur-[120px] animate-pulse duration-[8000ms]" />
 
-          <h1 className="text-xl font-bold text-white mb-2">
-            Login Required
-          </h1>
-
-          <p className="text-zinc-400 text-sm">
-            Please log in to access your dashboard and view your data.
-          </p>
-        </div>
-      ) : (
+      {/* Main Content Area - Strictly Centered */}
+      <div className="relative z-10 w-full max-w-[400px]">
         
-        /* LOGGED IN STATE */
-        <div className="text-center max-w-md bg-zinc-900 border border-white/10 rounded-2xl p-10">
+        {!user ? (
+          <div className="relative group w-full">
+            {/* Soft Outer Glow */}
+            <div className="absolute -inset-4 bg-blue-500/5 rounded-[3rem] blur-3xl group-hover:bg-blue-500/10 transition-all duration-1000" />
+            
+            {/* The Main Box */}
+            <div className="relative bg-white/80 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[2.5rem] overflow-hidden transition-all duration-500 ease-out transform group-hover:-translate-y-2 group-hover:shadow-[0_32px_64px_rgba(0,0,0,0.06)] group-hover:border-blue-100">
+              
+              {/* Top Accent Line */}
+              <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 via-blue-400 to-blue-600 animate-gradient-x" />
+              
+              <div className="p-10 text-center">
+                {/* Icon Section */}
+                <div className="relative mx-auto w-20 h-20 mb-8 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-blue-100/50 rounded-full animate-ping opacity-20" />
+                  <div className="relative bg-white border border-slate-100 p-5 rounded-3xl shadow-sm group-hover:rotate-6 transition-transform duration-500">
+                    <LockKeyhole className="w-8 h-8 text-blue-600" />
+                  </div>
+                </div>
+
+                {/* Text Content */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center gap-2">
+                    <Zap className="w-3.5 h-3.5 text-blue-500 fill-current" />
+                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.4em]">Security Layer Alpha</span>
+                  </div>
+                  
+                  <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase leading-[0.9]">
+                    Identity <br /> Required
+                  </h1>
+
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed px-2">
+                    To access your civic dashboard and encrypted reports, please authenticate your session.
+                  </p>
+                </div>
+
+                {/* Decorative Bottom Element */}
+                <div className="mt-10 pt-6 border-t border-slate-50 flex justify-center">
+                   <div className="flex gap-2">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-100 group-hover:bg-blue-200 transition-colors duration-500" />
+                    ))}
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
           
-          <User className="mx-auto w-10 h-10 text-blue-500 mb-4" />
+          /* LOGGED IN STATE - Centered Placeholder */
+          <div className="group text-center bg-white/90 backdrop-blur-xl border border-white rounded-[2.5rem] p-12 shadow-[0_20px_50px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-2">
+            <div className="bg-blue-50 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-blue-100 shadow-inner group-hover:scale-110 transition-transform duration-500">
+              <User className="w-10 h-10 text-blue-600" />
+            </div>
 
-          <h1 className="text-2xl font-black text-white">
-            Hi, {user.name}
-          </h1>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+              Welcome, {user.name}
+            </h1>
 
-          <p className="text-zinc-400 mt-2 text-sm">
-            Welcome to your dashboard.
-          </p>
-        </div>
-      )}
-
+            <p className="text-blue-600 mt-2 text-[10px] font-black uppercase tracking-[0.3em]">
+              Authorized Session Active
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
