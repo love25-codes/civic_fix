@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyABxf2A8VaEelMUuBB0F_pM1CXHYO7-4ic",
-  authDomain: "civic-fix-20457.firebaseapp.com",
-  projectId: "civic-fix-20457",
-  storageBucket: "civic-fix-20457.firebasestorage.app",
-  messagingSenderId: "216216740251",
-  appId: "1:216216740251:web:e8beb46f7937401c5b813e"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 

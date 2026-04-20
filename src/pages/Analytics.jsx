@@ -149,10 +149,14 @@ export default function Analytics() {
       <div className="max-w-7xl mx-auto px-6 py-12">
 
         {/* HEADER */}
-        <h1 className="text-3xl font-bold text-white mb-10 uppercase">
-          City Analytics
-        </h1>
-
+   <div className="mb-10">
+  <h1 className="text-3xl font-light text-white uppercase tracking-tight">
+    City <span className="font-bold">Analytics</span>
+  </h1>
+  <p className="text-blue-400/80 text-sm font-semibold uppercase mt-1">
+    Demographics • Infrastructure • Resource Management
+  </p>
+</div>
         {/* KPI */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {kpis.map((k, i) => (
