@@ -103,6 +103,9 @@ CI/CD PIPELINE: Connected GitHub to Vercel for automated builds and continuous d
 "Don't just see. Report it to CivicFix."
 ```
 
+## Check out the working of the app !
+### https://drive.google.com/file/d/1QzXLby90N5L9xz79S_zLXX8NUrHggjCG/view?usp=sharing
+
 ## 👩‍💻 Creator:
 ### Lovepreet Kaur
 Built with curiosity, creativity, and React.
