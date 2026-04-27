@@ -41,6 +41,7 @@ CIVIC_FIX
 ├── eslint.config.js      # Linting configuration
 ├── index.html            # Entry HTML file
 ├── package-lock.json     # Locked version of dependencies
+├── vercel.json           # Vercel Refresh Routing 
 ├── package.json          # Project metadata & dependencies
 ├── postcss.config.js     # PostCSS (Tailwind) config
 └── README.md             # Project documentation
